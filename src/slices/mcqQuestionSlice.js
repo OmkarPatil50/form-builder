@@ -7,12 +7,12 @@ const initialState = {
   status: "idle"
 };
 
-export const fetchCategorizeQuestions = createAsyncThunk(
-  "categorizeQuestions/fetchCategorizeQuestions",
+export const fetchMcqQuestions = createAsyncThunk(
+  "mcqQuestions/fetchMcqQuestions",
   async () => {
     try {
       const response = await fetch(
-        "https://form-builder-app.omkarpatil20.repl.co/categorizeQuestions"
+        "https://form-builder-app.omkarpatil20.repl.co/mcqQuestions"
       );
       const result = await response.json();
       return result;
@@ -22,12 +22,12 @@ export const fetchCategorizeQuestions = createAsyncThunk(
   }
 );
 
-export const addCategorizeQuestion = createAsyncThunk(
-  "categorizeQuestions/addCategorizeQuestion",
+export const addMcqQuestion = createAsyncThunk(
+  "mcqQuestions/addMcqQuestion",
   async (data) => {
     try {
       const response = await fetch(
-        "https://form-builder-app.omkarpatil20.repl.co/categorizeQuestions",
+        "https://form-builder-app.omkarpatil20.repl.co/mcqQuestions",
         {
           method: "POST",
           body: JSON.stringify(data),
@@ -45,12 +45,12 @@ export const addCategorizeQuestion = createAsyncThunk(
   }
 );
 
-export const updateCategorizeQuestion = createAsyncThunk(
-  "categorizeQuestions/updateCategorizeQuestion",
+export const updateMcqQuestion = createAsyncThunk(
+  "mcqQuestions/updateMcqQuestion",
   async ({ _id, newQuestion }) => {
     try {
       const response = await fetch(
-        `https://form-builder-app.omkarpatil20.repl.co/categorizeQuestions/${_id}`,
+        `https://form-builder-app.omkarpatil20.repl.co/mcqQuestions/${_id}`,
         {
           method: "PUT",
           body: JSON.stringify(newQuestion),
@@ -61,6 +61,7 @@ export const updateCategorizeQuestion = createAsyncThunk(
       );
       const result = await response.json();
       toast.success("Question updated Successfully");
+
       return result;
     } catch (error) {
       console.error(error);
@@ -68,18 +69,18 @@ export const updateCategorizeQuestion = createAsyncThunk(
   }
 );
 
-export const deleteCategorizeQuestion = createAsyncThunk(
-  "categorizeQuestions/deleteCategorizeQuestion",
+export const deleteMcqQuestion = createAsyncThunk(
+  "mcqQuestions/deleteMcqQuestion",
   async (id) => {
     try {
       const response = await fetch(
-        `https://form-builder-app.omkarpatil20.repl.co/categorizeQuestions/${id}`,
+        `https://form-builder-app.omkarpatil20.repl.co/mcqQuestions/${id}`,
         {
           method: "DELETE"
         }
       );
       const result = await response.json();
-      toast.success("Question deleted Successfully");
+      toast.success("Question Deleted Successfully");
 
       return result;
     } catch (error) {
@@ -88,44 +89,44 @@ export const deleteCategorizeQuestion = createAsyncThunk(
   }
 );
 
-export const categorizeQuestionslice = createSlice({
+export const McqQuestionslice = createSlice({
   name: "questions",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchCategorizeQuestions.pending, (state) => {
+    builder.addCase(fetchMcqQuestions.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(fetchCategorizeQuestions.fulfilled, (state, action) => {
+    builder.addCase(fetchMcqQuestions.fulfilled, (state, action) => {
       state.status = "idle";
       state.questions = action.payload;
       state.error = null;
     });
-    builder.addCase(fetchCategorizeQuestions.rejected, (state, action) => {
+    builder.addCase(fetchMcqQuestions.rejected, (state, action) => {
       state.status = "idle";
       state.error = action.payload.error;
     });
-    builder.addCase(addCategorizeQuestion.pending, (state) => {
+    builder.addCase(addMcqQuestion.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(addCategorizeQuestion.fulfilled, (state, action) => {
+    builder.addCase(addMcqQuestion.fulfilled, (state, action) => {
       state.status = "idle";
       state.questions.push(action.payload);
       state.error = null;
     });
-    builder.addCase(addCategorizeQuestion.rejected, (state, action) => {
+    builder.addCase(addMcqQuestion.rejected, (state, action) => {
       state.status = "idle";
       state.error = action.payload.error;
     });
-    builder.addCase(deleteCategorizeQuestion.pending, (state) => {
+    builder.addCase(deleteMcqQuestion.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(deleteCategorizeQuestion.fulfilled, (state, action) => {
+    builder.addCase(deleteMcqQuestion.fulfilled, (state, action) => {
       state.status = "idle";
       state.questions = action.payload;
       state.error = null;
     });
-    builder.addCase(deleteCategorizeQuestion.rejected, (state, action) => {
+    builder.addCase(deleteMcqQuestion.rejected, (state, action) => {
       state.status = "idle";
       state.error = action.payload.error;
     });
